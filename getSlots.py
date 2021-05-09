@@ -13,8 +13,8 @@ user_agent_list = [
 ]
 
 def main():
-   while True:
-       district_id, date = getUserRequirements()
+    district_id, date = getUserRequirements()
+    while True:
        alert(district_id, date)
        time.sleep(120)
 
