@@ -14,13 +14,13 @@ user_agent_list = [
 
 def main():
    while True:
-       alert()
+       district_id, date = getUserRequirements()
+       alert(district_id, date)
        time.sleep(120)
 
 
 
 def alert():
-    district_id, date = getUserRequirements()
     slots = getSlots(district_id, date)
     if slots is None :
         print("NONE")
