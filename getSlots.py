@@ -20,7 +20,7 @@ def main():
 
 
 
-def alert():
+def alert(district_id, date):
     slots = getSlots(district_id, date)
     if slots is None :
         print("NONE")
