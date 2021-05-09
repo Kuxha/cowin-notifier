@@ -20,7 +20,8 @@ def main():
 
 
 def alert():
-    slots = getSlots()
+    district_id, date = getUserRequirements()
+    slots = getSlots(district_id, date)
     if slots is None :
         print("NONE")
     n_s = 0
@@ -68,8 +69,7 @@ def getDistricts(state_id):
     #print(json_data)
     return json_data
 
-def getSlots():
-    district_id, date = getUserRequirements()
+def getSlots(district_id, date):
     user_agent = random.choice(user_agent_list)
     #Set the headers 
     headers = {'User-Agent': user_agent}
