@@ -5,29 +5,24 @@ import random
 from datetime import date
 
 user_agent_list = [
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+    'Mozilla/4.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
+    'Mozilla/4.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
+    'Mozilla/4.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+    'Mozilla/4.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0',
+    'Mozilla/4.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
 ]
 
 def main():
-   # district_id, date = getUserRequirements()
-    today = date.today().strftime("%d-%m-%Y")
-    print('Select pin')    
-    pin = input()
-    
-    district_id = pin
+    district_id, date = getUserRequirements()
     while True:
 
-       alert(district_id, date,2)
+       alert(district_id, date,1)
        time.sleep(5)
 
 
 
 def alert(district_id, date,flag):
-    slots =getSlotsByPin(district_id,date)
+    slots = getSlots(district_id, date) if(flag == 1 ) else getSlotsByPin(district_id,date)
     if slots is None :
         print("NONE")
     n_s = 0
@@ -36,32 +31,23 @@ def alert(district_id, date,flag):
         for v in venues :
             sessions = v.get('sessions')
             print("Center Name: %s" %(v.get('name')))
-            print("---------------------------------------------------")
-            print(v.get('fee_type'))
-            paid = v.get('fee_type')
-            print(paid == "Free")
             for s in sessions :
-                  
-
-                cap = s.get('available_capacity_dose1')
-                paid = s.get('fee_type')
-                print("paid ?")
-                print(paid)
+       
+                cap = s.get('available_capacity')
                
                 age = s.get('min_age_limit')
                 print('Date: %s Available capacity %d Age %d' %(s.get('date'), cap, age))
                 #print('Available capacity:',cap)
                 #print('Age',age)
                 
-                if cap>0 and paid == "Free":
+                if age==45 and cap>0:
                      n_s =  n_s + cap
                      print(s)
                     
  
         
     if n_s>0:
-    	print("its there ............................................................")
-    	playsound('salert.mp3')
+        playsound('salert.mp3')
 
 
 def getStates():
@@ -99,7 +85,7 @@ def getSlotsByPin(district_id, date):
 	print(district_id)
 	user_agent = random.choice(user_agent_list)
 	headers = {'User-Agent': user_agent}
-	request_url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=248001&date=02-07-2021'
+	request_url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=' + str(district_id) + '&date=' + date
 	response = requests.get(request_url,headers=headers)
 	json_data = response.json()
 	return json_data
