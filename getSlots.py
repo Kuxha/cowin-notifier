@@ -15,10 +15,10 @@ user_agent_list = [
 def main():
    # district_id, date = getUserRequirements()
     today = date.today().strftime("%d-%m-%Y")
-    print('Select pin')    
-    pin = input()
+   # print('Select pin')    
+   # pin = input()
     
-    district_id = pin
+    district_id = 1
     while True:
 
        alert(district_id, date,2)
@@ -60,9 +60,10 @@ def alert(district_id, date,flag):
  
         
     if n_s>0:
-    	print("its there ............................................................")
+    	print(" \n\n\n\n---------------------------- its there ............................................................\n\n\n\n")
     	playsound('salert.mp3')
-
+    else:
+    	print("\n\n\n======================= no slots found ================================\n\n\n")
 
 def getStates():
     user_agent = random.choice(user_agent_list)
